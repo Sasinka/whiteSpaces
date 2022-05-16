@@ -49,6 +49,38 @@ public class ReadFromFile {
         }
     }
 
+    public static int numberOfWord(String inputFile) throws FileNotFoundException {
+        int i = 0;
+        try {
+            File myObj = new File(inputFile);
+            Scanner myReader = new Scanner(myObj);
+            BufferedReader br = new BufferedReader(new FileReader(inputFile));
+
+            while (myReader.hasNextLine()) {
+                     String temp = myReader.nextLine();
+
+                        //Char nemá equals?
+                     for(int k = 1; k < temp.length(); k++ ) {
+                         if (temp.charAt(0)  ) {
+                             System.out.println(i);
+                             i++;
+                         }
+                     }
+
+
+            }
+
+        }catch(FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return i;
+
+
+    }
+
     public static void nactiData() {
 
         try {
