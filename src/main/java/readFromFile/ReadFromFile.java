@@ -16,18 +16,50 @@ public class ReadFromFile {
          return data;
     }
 
+    public static void numberLines() {
+        try {
+            File myObj = new File("../text.txt");
+            Scanner myReader = new Scanner(myObj);
+            int i = 0;
+            BufferedReader br = new BufferedReader(new FileReader("../text.txt"));
+            FileWriter fw = new FileWriter(myObj, true); // co delá to true a false když mi funguje jen true
+            BufferedWriter bw = new BufferedWriter(fw);
+            String data = "";
+            //tady nevím jak daný řádek přepsat
+            while  (myReader.hasNextLine())
+            {
+                String temp = myReader.nextLine();
+                data = i + " " + temp + "\n";
+                System.out.println(data);
+                i++;
+                bw.write(data);
+            }
 
+            bw.close();
+            myReader.close();
+
+
+
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void nactiData() {
 
         try {
+            System.out.println(" data try");
             File myObj = new File("../text.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = odstranMezery(myReader.nextLine());
                 if(!data.isBlank()){
                     System.out.println(data.isBlank());
-                    zapisData(data);
+                    zapisData(data, "../text.txt", "output.txt");
                 }else{
                     System.out.println("empty line");
                 }
@@ -40,21 +72,13 @@ public class ReadFromFile {
         }
     }
 
-    public static void zapisData(String data){
+    public static void zapisData(String data, String input, String output){
         try{
             //File myObj = new File("../input.txt");
             //BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
 
-            Path path = Paths.get("input.txt");
-/*            int lines = 0;
-            try{
-                lines = (int)Files.lines(path).count();
-                System.out.println("Counted : "+ lines + " lines");
-            }catch (IOException e){
-                System.out.println("lines not counted");
-            }
-            */
-            FileWriter fw = new FileWriter("output.txt", true);
+            Path path = Paths.get(input);
+            FileWriter fw = new FileWriter(output, true);
             BufferedWriter bw = new BufferedWriter(fw);
 
             bw.write(data);
