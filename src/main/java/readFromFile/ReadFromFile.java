@@ -1,6 +1,7 @@
 package readFromFile;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,10 +10,13 @@ import java.util.Scanner;
 
 public class ReadFromFile {
 
-    public static
-    void odstranMezery(String data){
-        data = data.replaceAll("\\s+", " ");
+    public static String odstranMezery(String data){
+         data =  data.replaceAll("\\s+", " ");
+        // data = data.replaceAll("\n", "");
+         return data;
     }
+
+
 
     public static void nactiData() {
 
@@ -20,11 +24,14 @@ public class ReadFromFile {
             File myObj = new File("../text.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                //tady něco udělat
-                odstranMezery(data);
-                System.out.println(data);
-                zapisData(data);
+                String data = odstranMezery(myReader.nextLine());
+                if(!data.isBlank()){
+                    System.out.println(data.isBlank());
+                    zapisData(data);
+                }else{
+                    System.out.println("empty line");
+                }
+
             }
             myReader.close();
         } catch (FileNotFoundException e) {
