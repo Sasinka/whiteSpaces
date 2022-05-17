@@ -8,12 +8,15 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
+import static java.lang.Character.SPACE_SEPARATOR;
+import static java.lang.Long.parseLong;
+
 public class ReadFromFile {
 
-    public static String odstranMezery(String data){
-         data =  data.replaceAll("\\s+", " ");
+    public static String odstranMezery(String data) {
+        data = data.replaceAll("\\s+", " ");
         // data = data.replaceAll("\n", "");
-         return data;
+        return data;
     }
 
     public static void numberLines() {
@@ -26,8 +29,7 @@ public class ReadFromFile {
             BufferedWriter bw = new BufferedWriter(fw);
             String data = "";
             //tady nevím jak daný řádek přepsat
-            while  (myReader.hasNextLine())
-            {
+            while (myReader.hasNextLine()) {
                 String temp = myReader.nextLine();
                 data = i + " " + temp + "\n";
                 System.out.println(data);
@@ -39,9 +41,7 @@ public class ReadFromFile {
             myReader.close();
 
 
-
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         } catch (IOException e) {
@@ -57,20 +57,20 @@ public class ReadFromFile {
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
 
             while (myReader.hasNextLine()) {
-                     String temp = myReader.nextLine();
+                String temp = myReader.nextLine();
 
-                        //Char nemá equals?
-                     for(int k = 1; k < temp.length(); k++ ) {
-                         if (temp.charAt(0)  ) {
-                             System.out.println(i);
-                             i++;
-                         }
-                     }
+                //Char nemá equals?
+                for (int k = 0; k < temp.length(); k++) {
+                    if (temp.charAt(k) == SPACE_SEPARATOR) { //temp.charAt(k)
+                        System.out.println(i);
+                        i++;
+                    }
+                }
 
 
             }
 
-        }catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         } catch (IOException e) {
@@ -81,7 +81,7 @@ public class ReadFromFile {
 
     }
 
-    public static void nactiData() {
+    public static void readData() {
 
         try {
             System.out.println(" data try");
@@ -89,10 +89,10 @@ public class ReadFromFile {
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = odstranMezery(myReader.nextLine());
-                if(!data.isBlank()){
+                if (!data.isBlank()) {
                     System.out.println(data.isBlank());
-                    zapisData(data, "../text.txt", "output.txt");
-                }else{
+                    writeData(data, "../text.txt", "output.txt");
+                } else {
                     System.out.println("empty line");
                 }
 
@@ -104,11 +104,8 @@ public class ReadFromFile {
         }
     }
 
-    public static void zapisData(String data, String input, String output){
-        try{
-            //File myObj = new File("../input.txt");
-            //BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
-
+    public static void writeData(String data, String input, String output) {
+        try {
             Path path = Paths.get(input);
             FileWriter fw = new FileWriter(output, true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -117,12 +114,50 @@ public class ReadFromFile {
             bw.newLine();
             bw.close();
         } catch (FileNotFoundException e) {
-        System.out.println("An error occurred.");
-        e.printStackTrace();
+            System.out.println("An error occurred.");
+            e.printStackTrace();
 
-    } catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void writeData(String data, String output) {
+        try {
+            System.out.println("vytvtářím soubor");
+            File newFile = new File(output);
+            newFile.createNewFile();
+
+            FileWriter fw = new FileWriter(output, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            bw.write(data);
+            bw.newLine();
+            bw.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void realNumberToBinary(String outputFile) {
+        System.out.println("Insert number to print into a file: ");
+        //načtení z konzole
+        Scanner in = new Scanner(System.in);
+        long s = parseLong(in.nextLine());
+        //převod do binárního čísla
+        System.out.println("to binary" + s);
+        String bin = Long.toBinaryString(s);
+        //zápis do souboru
+        System.out.println(bin + "bin");
+        writeData(bin, outputFile);
+
 
     }
 }
